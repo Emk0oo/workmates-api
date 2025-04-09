@@ -1,13 +1,17 @@
 const db = require('../config/db');
 
 exports.getAllSessions = async (req, res) => {
-  try {
-    const [rows] = await db.query('SELECT * FROM sessions');
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+    try {
+      const [sessions] = await db.query(
+        `SELECT * FROM sessions ORDER BY date_debut DESC`
+      );
+  
+      res.json(sessions);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Erreur lors de la récupération des sessions' });
+    }
+  };
 
 exports.getSessionById = async (req, res) => {
   try {
